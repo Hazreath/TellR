@@ -1,0 +1,32 @@
+.container {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-bottom: 20px;
+    /* border-bottom: 2px dotted black; */
+}
+.container > nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.container > nav > a {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.container > nav > a:hover {
+    background: limegreen;
+    transition: 0.25s;
+}
+.container > nav > a:not(hover) {
+    background: inherit;
+    transition: 0.25s;
+}
+
+.container > nav > a:first-child {
+    border-right: 1px solid black;
+}
