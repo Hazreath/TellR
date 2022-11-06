@@ -2,3 +2,4 @@ front/node_modules
 back/node_modules
 
 back/.private-notes
+/node_modules
