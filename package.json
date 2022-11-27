@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "create-next-app": "^12.3.1"
-  }
+    "scripts": {
+        "dev": "npm run dev --prefix front"
+    },
+    "dependencies": {
+        "create-next-app": "^12.3.1",
+        "mongoose": "^6.7.1"
+    }
 }
