@@ -18,6 +18,15 @@ async function getDiariesForOwner(owner) {
     return res.data;
 }
 
+async function putDiary(diaryId, diaryContent) {
+    console.log('putDiary : ', diaryId, ' ', diaryContent)
+
+    let data = { diaryId : diaryId, diaryContent: diaryContent}
+    let res = axios.put(buildTellRUrl("/api/diary"), data)
+
+    return res.data
+}
 module.exports = {
     getDiariesForOwner,
+    putDiary
 };

@@ -9,7 +9,6 @@ const diarySchema = new mongoose.Schema({
 let Diary;
 
 if (!mongoose.models.Diary) {
-    console.log("DIARY DEFINI VOILA");
     Diary = mongoose.model("Diary", diarySchema, "diaries");
 }
 
