@@ -1,7 +1,7 @@
 import Head from "next/head";
 import DebugNavBar from "../components/DebugNavbar";
 import Script from "next/script";
-import Image from "next/Image";
+import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
 export default function Test() {
