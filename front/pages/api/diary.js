@@ -1,5 +1,5 @@
 // import Diary from "../../models/Diary";
-import {tokenVerificationMiddleware} from "../utils/APIControls";
+import {tokenVerificationMiddleware} from "../../utils/APIControls";
 
 require("../../models/Diary");
 const mongoose = require("mongoose");
