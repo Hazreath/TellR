@@ -10,25 +10,43 @@ import {decryptContent, encryptContent} from "../library/Encryption";
 
 export default function Home() {
     const STUB_USER = { id: "Benji" };
+    const NO_JOURNAL_SELECTED = -1
+    const [journals, setJournals] = useState(null)
     const [journalContent, setJournalContent] = useState(null);
     const [user, setUser] = useState(STUB_USER);
     const [pass, setPass] = useState("pass")
+    const [selectedDiaryIndex, setSelectedDiaryIndex] = useState(null)
     const keysPressed = {}
 
     // FIRST LOADING
     useEffect(() => {
-        // Chargement journal pour l'utilisateur
+        // Get all journals for user
         getDiariesForOwner(user.id).then((data) => {
-            // data.content = decryptContent(data.content,pass)
-            setJournalContent(...data);
+            console.log('journals loaded : ',data)
+            setJournals(data)
         });
 
-        console.log("journalContent", journalContent);
+        // console.log("journalContent", journalContent);
     }, []);
 
+    useEffect(() => {
+        console.log("SELECTED ",selectedDiaryIndex)
+        if (selectedDiaryIndex == NO_JOURNAL_SELECTED) {
+            // Reset journal content
+            setJournalContent(null)
+        // Get selected journal content
+        } else if (journals && selectedDiaryIndex != null) {
+            decryptContent(journals[selectedDiaryIndex].content,pass)
+                .then((decrypted) => {
+                    journals[selectedDiaryIndex].content = decrypted
+                    setJournalContent(journals[selectedDiaryIndex]);
+                })
+        }
+
+    }, [journals,selectedDiaryIndex]/*[selectedDiaryIndex]*/)
     // Every refresh
     useEffect(() => {
-        if (journalContent) {
+        if (journalContent ) {
             let textarea = document.getElementById("journalContent");
             textarea.scrollTop = textarea.scrollHeight;
         }
@@ -44,13 +62,16 @@ export default function Home() {
         if (keysPressed["Control"] && keysPressed["s"]) {
             e.preventDefault()
             console.log('Saving to DB ...')
-            let encryptedContent = encryptContent(journalContent.content,pass)
+            let encryptedContent = await encryptContent(journalContent.content,pass)
             console.log(encryptedContent)
-            await putDiary(journalContent._id,encryptedContent )
+            await putDiary(journalContent._id,encryptedContent)
         }
-
     };
 
+    let onJournalSelectChange = (e) => {
+        console.log(e.target.value)
+        setSelectedDiaryIndex(e.target.value)
+    }
     return (
         <div className={styles.container}>
             <Head>
@@ -74,6 +95,14 @@ export default function Home() {
                     TellR
                 </h1>
 
+                <select onChange={onJournalSelectChange} className={"select"}>
+                    <option key='null' value={NO_JOURNAL_SELECTED}>-</option>
+                    {
+                        journals && journals.map(
+                            (j,index) => <option key={j._id} value={index}>{j.cover}</option>
+                        )
+                    }
+                </select>
                 {journalContent !== null && (
                     <React.Fragment>
                         {/* <div
